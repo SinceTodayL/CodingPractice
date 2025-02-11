@@ -56,7 +56,6 @@ int main(){
         }
     }
 
-    cost = min(cost, )
 
     return 0;
 }
