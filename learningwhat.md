@@ -13,3 +13,9 @@ C题是一个二分，非常巧妙的转换了问题，原本是：
 在给定 x 的情况下，求 k 是否能满足条件 (bool返回值的check函数)
 
 妙哉
+
+2025 0302 cf_round1007 div2
+
+B题，`for` 循环中的 i 要用 longlong，不然后面 i * (i + 1) 就会爆int
+
+不开longlong见祖宗
