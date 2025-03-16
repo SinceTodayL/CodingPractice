@@ -20,6 +20,7 @@
         "initializer_list": "cpp",
         "regex": "cpp",
         "ratio": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "iomanip": "cpp"
     }
 }
