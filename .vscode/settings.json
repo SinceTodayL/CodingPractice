@@ -21,6 +21,8 @@
         "regex": "cpp",
         "ratio": "cpp",
         "*.tcc": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "bitset": "cpp",
+        "set": "cpp"
     }
 }
