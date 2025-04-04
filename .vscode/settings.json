@@ -23,6 +23,7 @@
         "*.tcc": "cpp",
         "iomanip": "cpp",
         "bitset": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "numeric": "cpp"
     }
 }
