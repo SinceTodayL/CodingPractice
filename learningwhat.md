@@ -107,3 +107,43 @@ magic!
 0-1背包问题使用空间压缩时，循环必须倒序（想想为什么？），不然会重复选！
 
 同样的道理，完全背包问题使用空间压缩的时候，循环必须正序！
+
+#### luoguP2303
+
+快速方法求
+$$
+\sum_{i=1}^n gcd(i,n)
+$$
+其中 $n < 2^{31}$
+
+欧拉函数化简后仍然超时，如何化简？
+$$
+\sum \gcd(i, n) = \sum_{j=1}^n j \sum_{i=1}^n [\gcd(i,n)=j]
+= \sum_{j \mid n} j \cdot \varphi(n/j)
+$$
+
+$$
+= \sum_{j \mid n} \frac{n}{j} \varphi(j)
+= \sum_{j \mid n} \left( \frac{n}{j} \cdot j \cdot \prod_{p \mid j} \frac{p-1}{p} \right)
+= n \sum_{j \mid n} \prod_{p \mid j} \frac{p-1}{p}
+$$
+
+$$
+n = p_1^{b_1} p_2^{b_2} p_3^{b_3} \cdots p_k^{b_k}
+$$
+
+$$
+j = p_1^{c_1} p_2^{c_2} p_3^{c_3} \cdots p_k^{c_k}, \quad 0 \leq c_i \leq b_i
+$$
+
+$$
+\prod_{i=1}^k \left( \frac{p_i - 1}{p_i} \right)^{[c_i > 0]}
+$$
+
+$$
+于是原式化简为\  n \cdot \prod_{i=1}^k \frac{b_i p_i - b_i + p_i}{p_i}
+$$
+
+#### 2025 0419 cf_round 1017 div4
+
+G题
