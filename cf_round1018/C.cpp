@@ -1,79 +1,122 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+const ll INF = 1e18;
 
 void solve(){
     int n;
     cin >> n;
-    vector<vector<int>> nums(n + 1, vector<int>(n + 1, 0));
+
+    vector<vector<ll> > nums(n + 1, vector<ll>(n + 1, 0));
     for(int i = 1; i <= n; ++i){
         for(int j = 1; j <= n; ++j){
             cin >> nums[i][j];
         }
     }
-    vector<vector<int>> row(n + 1, vector<int>(n + 1, 0));
-    vector<vector<int>> col(n + 1, vector<int>(n + 1, 0));
+
+    vector<vector<ll> > row(n + 1, vector<ll>(n + 1, 0));
+    vector<vector<ll> > col(n + 1, vector<ll>(n + 1, 0));
     for(int i = 1; i <= n; ++i){
-        for(int j = 1; j <= n; ++j){
-            row[i][j] = nums[i][j] - nums[i][j - 1];
+        for(int j = 1; j < n; ++j){
+            row[i][j] = nums[i][j] - nums[i][j + 1];
         }
     }
-    for(int i = 1; i <= n; ++i){
+    for(int i = 1; i < n; ++i){
         for(int j = 1; j <= n; ++j){
-            row[j][i] = nums[j][i] - nums[j - 1][i];
+            col[i][j] = nums[i][j] - nums[i + 1][j];
         }
     }
-    vector<int> score_row(n + 1, 0);
-    vector<int> score_col(n + 1, 0);
-    for(int i = 1; i <= n; ++i){
+
+    vector<ll> score_row(n + 1), score_col(n + 1);
+    for(int i = 1; i <= n; ++i) 
         cin >> score_row[i];
-    }
-    for(int i = 1; i <= n; ++i){
-        cin >> score_col[i];
-    }
-    ll ans = 0;
-    vector<bool> plus(n + 2, true);
-    vector<bool> minus(n + 2, true);
-    vector<bool> zero(n + 2, false);
-    for(int i = 1; i <= n; ++i){
-        int cnt1 = 0, cnt2 = 0, cnt0 = 0;  // 1 : 1; 2 : -1
+    for(int j = 1; j <= n; ++j) 
+        cin >> score_col[j];
+
+    vector<bool> same_row(n + 1, true), rise_row(n + 1, true), fall_row(n + 1, true);
+    for(int i = 1; i < n; ++i){
         for(int j = 1; j <= n; ++j){
-            if(row[i][j] == 1)
-                cnt1++;
-            if(row[i][j] == -1)
-                cnt2++;
-            if(row[i][j] == 0)
-                cnt0++;
+            ll d = col[i][j];
+            if(d == 0) 
+                same_row[i] = false;
+            else if(d == 1) 
+                rise_row[i] = false;
+            else if(d == -1) 
+                fall_row[i] = false;
         }
-        if(cnt1 && cnt2 && cnt3){
-            cout << -1 << endl;
-            return;
-        }
-        if(cnt0)
-            zero[i] = true;
-        if(cnt1)
-            minus[i] = false;
-        if(cnt2)
-            plus[i] = false;
     }
-    plus[0] = false;
-    vector<vector<ll>> dp(n + 1, vector<ll>(2, INT_MAX));
-    dp[0][1] = dp[0][0] = 0;
-    for(int i = 1; i <= n; ++i){
-        if(zero[i]){
-            if(plus[])
+
+    vector<bool> same_col(n + 1, true), rise_col(n + 1, true), fall_col(n + 1, true);
+    for(int j = 1; j < n; ++j){
+        for(int i = 1; i <= n; ++i){
+            ll d = row[i][j];
+            if(d == 0) 
+                same_col[j] = false;
+            else if(d == 1) 
+                rise_col[j] = false;
+            else if(d == -1) 
+                fall_col[j] = false;
         }
-        else{
-            dp[i][0] = dp[i - 1][0];
-            if(plus[i]){
-                dp[i][1] = min(dp[i - 1][0], dp[i - 1][1]) + score_row[i];
+    }
+
+    vector<vector<ll> > dpR(n + 1, vector<ll>(2, INF));
+    dpR[1][0] = 0;
+    dpR[1][1] = score_row[1];
+    for(int i = 1; i < n; ++i){
+        for(int s = 0; s < 2; ++s){
+            if(dpR[i][s] == INF) continue;
+            for(int t = 0; t < 2; ++t){
+                ll delta = t - s;
+                bool ok = false;
+                if(delta == 0) 
+                    ok = same_row[i];
+                else if(delta == 1) 
+                    ok = rise_row[i];
+                else if(delta == -1) 
+                    ok = fall_row[i];
+                if(!ok) 
+                    continue;
+                ll cost = (t ? score_row[i + 1] : 0LL);
+                if(dpR[i + 1][t] > dpR[i][s] + cost){
+                    dpR[i + 1][t] = dpR[i][s] + cost;
+                }
             }
         }
     }
+    ll bestR = min(dpR[n][0], dpR[n][1]);
+
+    vector<vector<ll> > dpC(n + 1, vector<ll>(2, INF));
+    dpC[1][0] = 0;
+    dpC[1][1] = score_col[1];
+    for(int j = 1; j < n; ++j){
+        for(int s = 0; s < 2; ++s){
+            if(dpC[j][s] == INF) continue;
+            for(int t = 0; t < 2; ++t){
+                ll delta = t - s;
+                bool ok = false;
+                if(delta == 0) 
+                    ok = same_col[j];
+                else if(delta == 1) 
+                    ok = rise_col[j];
+                else if(delta == -1) 
+                    ok = fall_col[j];
+                if(!ok) 
+                    continue;
+                ll cost = (t ? score_col[j + 1] : 0LL);
+                if(dpC[j + 1][t] > dpC[j][s] + cost){
+                    dpC[j + 1][t] = dpC[j][s] + cost;
+                }
+            }
+        }
+    }
+    ll bestC = min(dpC[n][0], dpC[n][1]);
+
+    ll ans = (bestR >= INF || bestC >= INF) ? -1 : bestR + bestC;
+    cout << ans << "\n";
 }
 
 int main(){
-    ios_base::sync_with_stdio(0);
+    ios::sync_with_stdio(false);
     cin.tie(0);
 
     int t;
@@ -81,6 +124,5 @@ int main(){
     while(t--){
         solve();
     }
-
     return 0;
 }

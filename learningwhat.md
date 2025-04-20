@@ -122,6 +122,7 @@ $$
 = \sum_{j \mid n} j \cdot \varphi(n/j)
 $$
 
+对于一个数 n 而言，其因数是关于 $\sqrt{n}$  呈几何对称分布的，因此 $\sum_{j \mid n} j \cdot \varphi(n/j) = \sum_{j \mid n} \frac{n}{j} \varphi(j)$ 
 $$
 = \sum_{j \mid n} \frac{n}{j} \varphi(j)
 = \sum_{j \mid n} \left( \frac{n}{j} \cdot j \cdot \prod_{p \mid j} \frac{p-1}{p} \right)
@@ -143,6 +144,14 @@ $$
 $$
 于是原式化简为\  n \cdot \prod_{i=1}^k \frac{b_i p_i - b_i + p_i}{p_i}
 $$
+
+之所以能化简到这一步，是==逆向借助了乘法分配律==，因为该式实际上是：
+$$
+n \cdot \prod_{i=1}^k (\frac{b_i (p_i - 1)}{p_i} + 1)
+$$
+非常重要的思想！！！
+
+
 
 #### 2025 0419 cf_round 1017 div4
 
@@ -229,3 +238,33 @@ C题，非常nb的一道dp+差分的题目
 本题卡住我的另一个小 trick：差分时到底是 `a[i+1]-a[i]` 还是 `a[i]-a[i-1]`?  这个问题看似不重要，但是却影响了 dp 的递推式
 
 如果本题改为另一种差分方式，那在 dp 中，就会是用第 i-1 和 i 行的第二个状态去判断第 i 行是否可行！ 
+
+
+
+#### luoguP6583
+
+计算区间 [l, r] 内，拥有因子 a 或 b 的数的数量：==容斥原理==
+
+```c++
+int count_in_range(int l, int r, int x) {
+    return count_multiples(r, x) - count_multiples(l - 1, x);
+}   // 计算区间内拥有因子 x 的数的数量
+
+int result = count_in_range(l, r, a) + count_in_range(l, r, b) - count_in_range(l, r, a*b);
+// 容斥原理核心
+```
+
+当然，这是只是本题的一个小tricks
+
+题干为：
+
+给定 n，若 $1 \leq x, y \leq n$, 请问有多少组满足条件的 $\frac{x}{y}$ 是可以有限表示的小数？$n \leq 10^{12}$
+
+首先明确的是有限表示的小数，意味着和 2，5 两个因子有关系
+
+一通推导，发现和数论分块有关
+
+但是写的方法还是被卡了，没有达到最优，折磨我一晚上 :cry:
+
+
+
