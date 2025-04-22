@@ -1,6 +1,8 @@
 
 
-### Recording Learning What In The Process Of Coding
+### Recording Learning What In The Process Of Coding & Good Problems
+
+
 
 #### 2025 0227 cf_eduround175 div2
 
@@ -153,7 +155,7 @@ $$
 
 
 
-#### 2025 0419 cf_round 1017 div4
+#### 2025 0419 cf_round1017 div4
 
 G题
 
@@ -189,7 +191,7 @@ $$
 
 
 
-#### 2025 0420 cf_round 1018 div1+2 
+#### 2025 0420 cf_round1018 div1+2 
 
 C题，非常nb的一道dp+差分的题目
 
@@ -245,6 +247,11 @@ C题，非常nb的一道dp+差分的题目
 
 计算区间 [l, r] 内，拥有因子 a 或 b 的数的数量：==容斥原理==
 
+如果是计算区间内 拥有因子a的数量：	
+$$
+\lfloor \frac {r}{x} \rfloor - \lfloor \frac {l-1}{x} \rfloor
+$$
+
 ```c++
 int count_in_range(int l, int r, int x) {
     return count_multiples(r, x) - count_multiples(l - 1, x);
@@ -266,5 +273,24 @@ int result = count_in_range(l, r, a) + count_in_range(l, r, b) - count_in_range(
 
 但是写的方法还是被卡了，没有达到最优，折磨我一晚上 :cry:
 
+代码文件：[P6583](D:\ProgrammingProject\ACMPractice\other\luoguP6583.cpp)
 
 
+
+#### 2025 0422 cf_round1019 div2
+
+C题
+
+又被卡了，哎 :crying_cat_face:
+
+给定一个数组，然后分成三个非空的部分，定义 $med(a_l,..., a_r)$，且这个子数组的大小为 $m$, 那么该值等于第 $\lceil \frac {m}{2} \rceil$ 小的元素值
+
+判断是否存在这样一个划分，让 $med(med(a_1, ... ,a_l-1), med(a_l,..., a_r), med(a_r+1, ...,a_n))$ 的值小于给定的 $k$
+
+其实还是思路没转变过来
+
+一个数组的 med 值小于k，相当于该数组至少有一半的数小于等于k，但是至于这个数具体是多少，是无所谓的，因此，我们可以直接将大于k的赋值为1，小于k的赋值为-1，然后计算数组的prefix（$a_r - a_{l-1}$），只要大于等于0，就代表该前缀数组是满足条件的；
+
+同时，划分后三个部分的 med 小于等于k，意味着至少有2个部分是小于等于k，这个时候就想到：直接穷举，依次枚举几种可能；并且，前缀+中间部分、后缀+中间部分是对称的
+
+还有一个tricks，也是我之前的思路无法做到的一点，==就是求前缀和数组的后缀最大值==，并开一个数组 $msp(max\ suffix\ prefix)$，因此，当我们判断 前缀+中间部分 的时候，我们可以遍历 $1 - (n-2)$ 中的所有元素，如果前缀和大于等于0，并且下一个数的后缀最大值是大于 prefix[i] 的，那就代表前缀+中间部分可以满足条件！

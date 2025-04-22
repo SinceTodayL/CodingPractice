@@ -24,6 +24,7 @@
         "iomanip": "cpp",
         "bitset": "cpp",
         "set": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "utility": "cpp"
     }
 }
