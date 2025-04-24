@@ -275,6 +275,27 @@ int result = count_in_range(l, r, a) + count_in_range(l, r, b) - count_in_range(
 
 代码文件：[P6583](D:\ProgrammingProject\ACMPractice\other\luoguP6583.cpp)
 
+实际上还是要从不同的角度看这个问题
+
+需要满足的条件：化简后的分母，必须只有2，5两个因子，因此，对于任何一个分数，我们可以写作：
+$$
+\frac{x}{k\times d}
+$$
+其中 d 是一个不包含任何 2，5因子的数，k 是形如 $2^{q}\times5^{l}$ 的数
+
+这样，我们按照 d 来进行数论分块，对于每一个 $\frac{n}{d}$ 相同的分块，我们再计算 k 的可能值有多少个，这样，利用乘法原理相乘即可
+
+```c++
+for (ll q = 1; q <= n; ) {
+        ll current = n / q; // 当前块内n/d的值
+        ll next_q = n / current + 1; // 下一个块的起点
+        ll k_count = count_2_5(current); // 2^a*5^b的数的个数
+        ll d_count = count_coprime_10(q, min(n, next_q-1)); // 与10互质的d的数量
+        ans += k_count * current * d_count;
+        q = next_q;
+    }
+```
+
 
 
 #### 2025 0422 cf_round1019 div2
