@@ -68,6 +68,6 @@ Codeforces Round 1018
 Codeforces Round 1019
 
 **2025** **0425**
-Codeforces Round 1020, Educational Codeforces Round 174
+Codeforces Round 1020, Educational Codeforces Round 174 (Practice)
 
 ****
