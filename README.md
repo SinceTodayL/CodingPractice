@@ -63,3 +63,11 @@ Codeforces Round 1017(Practice), Codeforces Round 999 (Practice)
 
 **2025** **0419**
 Codeforces Round 1018
+
+**2025** **0421**
+Codeforces Round 1019
+
+**2025** **0425**
+Codeforces Round 1020, Educational Codeforces Round 174
+
+****
